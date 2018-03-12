@@ -2,4 +2,4 @@
 
 console.log("Hello World!");
 console.log("hoge fuga");
-console.log("add comment");
+console.log("add comments");
