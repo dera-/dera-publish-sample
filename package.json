@@ -1,6 +1,6 @@
 {
   "name": "dera-publish-sample",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "試しにpublishしてみるためだけのコンテンツ",
   "main": "index.js",
   "scripts": {
