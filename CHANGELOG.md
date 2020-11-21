@@ -1,5 +1,8 @@
 # ChangeLog
 
+## 0.2.6
+index.jsを更新 take4
+
 ## 0.2.5
 index.jsを更新take3
 
