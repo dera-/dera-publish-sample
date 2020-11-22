@@ -1,5 +1,9 @@
 # ChangeLog
 
+## 0.2.10
+* update index.js
+  * add console
+
 ## 0.2.9
 * update index.js
   * add console
