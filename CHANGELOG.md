@@ -1,5 +1,9 @@
 # ChangeLog
 
+## 0.2.9
+* update index.js
+  * add console
+
 ## 0.2.8
 index.jsを更新 take6
 
