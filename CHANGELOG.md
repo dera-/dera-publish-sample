@@ -1,5 +1,8 @@
 # ChangeLog
 
+## 0.2.16
+* update index.js
+
 ## 0.2.15
 * update index.js
 

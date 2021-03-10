@@ -1,11 +1,15 @@
 {
   "name": "@dera-/dera-publish-sample",
-  "version": "0.2.15",
+  "version": "0.2.16",
   "description": "試しにpublishしてみるためだけのコンテンツ",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\""
   },
   "author": "dera-",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "publishConfig": {
+    "access": "public",
+    "@dera-:registry": "https://registry.npmjs.org/"
+  }
 }
