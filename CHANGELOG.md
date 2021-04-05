@@ -1,5 +1,8 @@
 # ChangeLog
 
+## 0.2.19
+* update index.js take19
+
 ## 0.2.18
 * update index.js
 
