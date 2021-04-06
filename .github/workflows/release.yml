@@ -23,7 +23,7 @@ jobs:
           npm install
           npm test
       - name: Publish and Release
-        uses: akashic-games/actions/release@refactor
+        uses: dera-/action-sample/release@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           npm_token: ${{ secrets.NPM_TOKEN }}
