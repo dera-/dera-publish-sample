@@ -8,6 +8,10 @@
   },
   "author": "dera-",
   "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dera-/dera-publish-sample.git"
+  },
   "publishConfig": {
     "access": "public",
     "@dera-:registry": "https://registry.npmjs.org/"
