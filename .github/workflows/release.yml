@@ -6,7 +6,7 @@ on:
       - master
 
 env:
-  NODE_VERSION: 20
+  NODE_VERSION: 24
 
 permissions:
   id-token: write # OIDCに必要
@@ -23,8 +23,8 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       # npm 11.5.1以降が必要
-      - name: Update npm
-        run: npm install -g npm@latest
+      # - name: Update npm
+      #   run: npm install -g npm@latest
       - name: Prepare publish
         run: |
           npm install
