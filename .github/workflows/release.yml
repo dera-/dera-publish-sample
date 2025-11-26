@@ -30,7 +30,7 @@ jobs:
           npm install
           npm test
       - name: Publish and Release
-        uses: dera-/action-sample/release@2359f32f380298f92e68b098c831efe6fadbca2d
+        uses: dera-/action-sample/release@886ca9aa37fc95173ad8b523ed773ab48fca22d9
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           npm_token: ${{ secrets.NPM_TOKEN }}
