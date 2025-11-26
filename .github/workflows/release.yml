@@ -11,6 +11,7 @@ env:
 permissions:
   id-token: write # OIDCに必要
   contents: write # Releaseの作成に必要
+  pull-requests: write # PRを作成する場合に必要
 
 jobs:
   release_publish:
