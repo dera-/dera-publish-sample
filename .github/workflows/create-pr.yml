@@ -1,0 +1,45 @@
+name: Publish And Release
+
+on:
+  dispatch-workflow:
+
+env:
+  NODE_VERSION: 24
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release_publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+      - name: Setup node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Prepare publish
+        run: |
+          npm install
+          npm test
+      - name: Create Commit and Pull Request
+        run: |
+          BRANCH_NAME="add-text-$(date +%s)"
+          git checkout -b "${BRANCH_NAME}"
+          git config user.name 'github-actions'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'\
+          echo "test" >> test.txt
+          git add -A
+          git commit -m "add test.txt"
+          git push origin "${BRANCH_NAME}"
+          gh pr create \
+            --title "add test.txt" \
+            --body "$(printf '# このPullRequestが解決する内容\ntest.txtを追加します。')" \
+            --label "dependencies" \
+            --base "${CURRENT_BRANCH}" \
+            --head "${BRANCH_NAME}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CURRENT_BRANCH: ${{ github.ref_name }}

@@ -42,8 +42,8 @@ jobs:
       - name: Create Release
         run: |
           CURRENT_TAG=$(jq -r .version package.json)
-          gh release create ${CURRENT_TAG} \
-            --title "Release ${CURRENT_TAG}" \
+          gh release create v${CURRENT_TAG} \
+            --title "Release v${CURRENT_TAG}" \
             --generate-notes \
             ./game-sample.zip \
             dist/test-*.txt
