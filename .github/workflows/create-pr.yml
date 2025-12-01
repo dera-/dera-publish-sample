@@ -5,7 +5,6 @@ on:
 
 env:
   NODE_VERSION: 24
-  CURRENT_BRANCH: ${{ github.ref_name }}
 
 permissions:
   contents: write
@@ -38,8 +37,8 @@ jobs:
           gh pr create \
             --title "add test.txt" \
             --body "$(printf '# このPullRequestが解決する内容\ntest.txtを追加します。')" \
-            --label "dependencies" \
             --base "${CURRENT_BRANCH}" \
             --head "${BRANCH_NAME}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CURRENT_BRANCH: ${{ github.ref_name }}
