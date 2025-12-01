@@ -5,6 +5,7 @@ on:
 
 env:
   NODE_VERSION: 24
+  CURRENT_BRANCH: ${{ github.ref_name }}
 
 permissions:
   contents: write
@@ -42,4 +43,3 @@ jobs:
             --head "${BRANCH_NAME}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CURRENT_BRANCH: ${{ github.ref_name }}
