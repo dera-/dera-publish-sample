@@ -1,4 +1,4 @@
-name: Publish And Release
+name: Create PullRequest
 
 on:
   workflow_dispatch:
