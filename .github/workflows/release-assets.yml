@@ -1,4 +1,4 @@
-name: Publish And Release
+name: Release Test Texts
 
 on:
   workflow_dispatch:
