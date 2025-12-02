@@ -1,0 +1,48 @@
+name: Publish And Release
+
+on:
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: 24
+
+permissions:
+  contents: write # Releaseの作成に必要
+
+jobs:
+  release_publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+      - name: Setup node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      # npm 11.5.1以降が必要
+      # - name: Update npm
+      #   run: npm install -g npm@latest
+      - name: Prepare publish
+        run: |
+          npm install
+          npm test
+      - name: Set date
+        id: variables
+        run: |
+          TODAY=$(date '+%Y-%m-%d')
+          echo "today=${TODAY}" >> $GITHUB_OUTPUT
+      - name: Upload apk
+        run: |
+          if gh release view "${TAG_NAME}" > /dev/null 2>&1; then
+            gh release view "${TAG_NAME}" --json assets -q '.assets[].name' | while read asset; do
+              if [ -n "$asset" ]; then
+                gh release delete-asset "${TAG_NAME}" "$asset" -y
+              fi
+            done
+            gh release upload "${TAG_NAME}" dist/*.txt --clobber
+          else
+            gh release create "${TAG_NAME}" dist/*.txt --title "Release Test (${TAG_NAME})"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ steps.variables.outputs.today }}
