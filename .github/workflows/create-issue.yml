@@ -1,0 +1,43 @@
+name: Create Test Issue
+
+on:
+  workflow_dispatch:
+
+permissions:
+    issues: write
+    contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+        with:
+          persist-credentials: false
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+      - name: Create Issue
+        run: |
+          sed "s/{{ env.RESULT }}/$RESULT/g" .github/issue-template.md > body_rendered.md
+          EXISTING_ISSUE_URL=$(gh issue list --search "$ISSUE_TITLE in:title is:open" --json url --jq '.[0].url')
+
+          if [ -n "$EXISTING_ISSUE_URL" ]; then
+            echo "Found existing issue: $EXISTING_ISSUE_URL. Updating..."
+            gh issue edit "$EXISTING_ISSUE_URL" --body-file body_rendered.md
+          else
+            echo "No existing issue found. Creating new one..."
+            gh issue create \
+              --title "$ISSUE_TITLE" \
+              --body-file body_rendered.md \
+              --label "$ISSUE_LABELS" \
+              --assignee "${{ github.actor }}"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RESULT: "test1 test2 test3"
+          # Issueの設定（mdファイルからこちらに移動）
+          ISSUE_TITLE: "test issue."
+          ISSUE_LABELS: "invalid"
