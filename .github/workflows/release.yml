@@ -30,22 +30,22 @@ jobs:
         run: |
           npm install
           npm test
-      # - name: Publish and Release
-      #   uses: dera-/action-sample/release@438c3ac4eebfa00e83abe6dc7dc9cfd7526a3a30
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     npm_token: ${{ secrets.NPM_TOKEN }}
-      #     only_pull_request: true
-      - name: Publish
-        run: |
-          npm publish
-      - name: Create Release
-        run: |
-          CURRENT_TAG=$(jq -r .version package.json)
-          gh release create v${CURRENT_TAG} \
-            --title "Release v${CURRENT_TAG}" \
-            --generate-notes \
-            ./game-sample.zip \
-            dist/test-*.txt
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish and Release
+        uses: dera-/action-sample/release@d4533052f135fda7be00a0d0f8a102536bbd0f2d
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          npm_token: ${{ secrets.NPM_TOKEN }}
+          only_pull_request: true
+      # - name: Publish
+      #   run: |
+      #     npm publish
+      # - name: Create Release
+      #   run: |
+      #     CURRENT_TAG=$(jq -r .version package.json)
+      #     gh release create v${CURRENT_TAG} \
+      #       --title "Release v${CURRENT_TAG}" \
+      #       --generate-notes \
+      #       ./game-sample.zip \
+      #       dist/test-*.txt
+      #   env:
+      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
