@@ -1,9 +1,8 @@
 name: Deploy Test Directory on GitHub Pages
 
 on:
-  push:
-    branches:
-      - gh-pages
+  deployment:
+    types: [created]
 
 jobs:
   build:
