@@ -1,0 +1,33 @@
+name: Deploy Test Directory on GitHub Pages
+
+on:
+  deployment_status:
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
+        with:
+          node-version: 24
+      - name: Install and Build
+        run: |
+          npm install
+      - name: Upload Pages artifact
+        run: |
+          mkdir test_dir
+          echo "<h1>Test Page</h1>" > test_dir/index.html
+          git checkout .
+          git checkout gh-pages
+          git add test_dir
+          if [[ -n "$(git diff --cached --shortstat)" ]]; then
+            git config user.name 'github-actions'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m "deploy Github Pages(test_dir)"
+            git push origin gh-pages
+          fi

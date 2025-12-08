@@ -35,7 +35,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           npm_token: ${{ secrets.NPM_TOKEN }}
-          only_pull_request: true
+          # only_pull_request: true
       # - name: Publish
       #   run: |
       #     npm publish

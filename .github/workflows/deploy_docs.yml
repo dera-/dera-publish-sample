@@ -4,16 +4,17 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 jobs:
   build:
     permissions:
-      contents: read
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
         with:
-          persist-credentials: false
+          fetch-depth: 0
       - uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
         with:
           node-version: 24
@@ -23,21 +24,37 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           npm install
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
-        with:
-          path: ./game
+        run: |
+          cp -r ./game ./public
+          git checkout .
+          git checkout gh-pages
+          # public以外を削除
+          find . -maxdepth 1 ! -name 'public' ! -name '.' -exec rm -rf {} +
+          mv public/* ./
+          rm -rf public
+          git add .
+          if [[ -n "$(git diff --cached --shortstat)" ]]; then
+            git config user.name 'github-actions'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m "deploy Github Pages"
+            git push origin gh-pages
+          fi
+      # - name: Upload Pages artifact
+      #   uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
+      #   with:
+      #     path: ./game
 
   # デプロイステップ（別のjobにするのが一般的）
-  deploy:
-    needs: build
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
+  # deploy:
+  #   needs: build
+  #   permissions:
+  #     pages: write
+  #     id-token: write
+  #   environment:
+  #     name: github-pages
+  #     url: ${{ steps.deployment.outputs.page_url }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Deploy to GitHub Pages
+  #       id: deployment
+  #       uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
