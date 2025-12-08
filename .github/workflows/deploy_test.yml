@@ -1,7 +1,7 @@
 name: Deploy Test Directory on GitHub Pages
 
 on:
-  deployment:
+  deployment_status:
     types: [created]
 
 jobs:
