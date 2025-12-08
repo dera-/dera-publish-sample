@@ -28,8 +28,7 @@ jobs:
           cp -r ./game ./public
           git checkout .
           git checkout gh-pages
-          # public以外を削除
-          find . -maxdepth 1 ! -name 'public' ! -name '.' -exec rm -rf {} +
+          find . -maxdepth 1 ! -name 'public' ! -name '.git' ! -name '.' -exec rm -rf {} +
           mv public/* ./
           rm -rf public
           git add .
